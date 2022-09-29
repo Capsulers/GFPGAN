@@ -58,13 +58,8 @@ def main():
 
     # ------------------------ set up background upsampler ------------------------
     if args.bg_upsampler == 'realesrgan':
-        if not torch.cuda.is_available():  # CPU
-            import warnings
-            warnings.warn('The unoptimized RealESRGAN is slow on CPU. We do not use it. '
-                          'If you really want to use it, please modify the corresponding codes.')
-            bg_upsampler = None
-        else:
-            from basicsr.archs.rrdbnet_arch import RRDBNet
+
+         from basicsr.archs.rrdbnet_arch import RRDBNet
             from realesrgan import RealESRGANer
             model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=2)
             bg_upsampler = RealESRGANer(
@@ -75,8 +70,6 @@ def main():
                 tile_pad=10,
                 pre_pad=0,
                 half=False)  # need to set False in CPU mode
-    else:
-        bg_upsampler = None
 
     # ------------------------ set up GFPGAN restorer ------------------------
     if args.version == '1':
