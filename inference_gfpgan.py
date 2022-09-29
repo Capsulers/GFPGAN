@@ -39,7 +39,7 @@ def main():
     parser.add_argument(
         '--ext',
         type=str,
-        default='auto',
+        default='png',
         help='Image extension. Options: auto | jpg | png, auto means using the same extension as inputs. Default: auto')
     parser.add_argument('-w', '--weight', type=float, default=0.5, help='Adjustable weights.')
     args = parser.parse_args()
