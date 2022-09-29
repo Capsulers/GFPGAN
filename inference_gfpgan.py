@@ -74,7 +74,7 @@ def main():
                 tile=args.bg_tile,
                 tile_pad=10,
                 pre_pad=0,
-                half=True)  # need to set False in CPU mode
+                half=False)  # need to set False in CPU mode
     else:
         bg_upsampler = None
 
