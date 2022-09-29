@@ -69,10 +69,7 @@ def main():
                 tile=args.bg_tile,
                 tile_pad=10,
                 pre_pad=0,
-                if not torch.cuda.is_available():
-                    half=False
-                else:
-                    half=True)  # need to set False in CPU mode
+                half=False if not torch.cuda.is_available() else half=True)  # need to set False in CPU mode
 
     # ------------------------ set up GFPGAN restorer ------------------------
     if args.version == '1':
