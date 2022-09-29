@@ -1,4 +1,3 @@
-180 lines (162 sloc)  7.24 KB
 import argparse
 import cv2
 import glob
@@ -179,4 +178,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-Footer
