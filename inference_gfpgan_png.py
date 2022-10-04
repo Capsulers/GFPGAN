@@ -5,7 +5,7 @@ import numpy as np
 import os
 import torch
 from basicsr.utils import imwrite
-
+from basicsr.utils.download_util import load_file_from_url
 from gfpgan import GFPGANer
 
 
@@ -28,6 +28,13 @@ def main():
 
     parser.add_argument(
         '--bg_upsampler', type=str, default='realesrgan', help='background upsampler. Default: realesrgan')
+    parser.add_argument(
+        '-dn',
+        '--denoise_strength',
+        type=float,
+        default=0.5,
+        help=('Denoise strength. 0 for weak denoise (keep noise), 1 for strong denoise ability. '
+              'Only used for the realesr-general-x4v3 model'))
     parser.add_argument(
         '--bg_tile',
         type=int,
@@ -59,24 +66,24 @@ def main():
     # ------------------------ set up background upsampler ------------------------
     if args.bg_upsampler == 'realesrgan':
        if not torch.cuda.is_available():
-           from basicsr.archs.rrdbnet_arch import RRDBNet
+           from realesrgan.archs.srvgg_arch import SRVGGNetCompact
            from realesrgan import RealESRGANer
-           model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=2)
+           model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=32, upscale=4, act_type='prelu')
            bg_upsampler = RealESRGANer(
-                scale=2,
-                model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.1/RealESRGAN_x2plus.pth',
+                scale=4,
+                model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-x4v3.pth',
                 model=model,
                 tile=args.bg_tile,
                 tile_pad=10,
                 pre_pad=0,
                 half=False)  # need to set False in CPU mode
        else:
-           from basicsr.archs.rrdbnet_arch import RRDBNet
+           from realesrgan.archs.srvgg_arch import SRVGGNetCompact
            from realesrgan import RealESRGANer
-           model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=2)
+           model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=32, upscale=4, act_type='prelu')
            bg_upsampler = RealESRGANer(
-                scale=2,
-                model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.1/RealESRGAN_x2plus.pth',
+                scale=4,
+                model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-x4v3.pth',
                 model=model,
                 tile=args.bg_tile,
                 tile_pad=10,
