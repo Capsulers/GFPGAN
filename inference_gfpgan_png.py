@@ -47,6 +47,7 @@ def main():
         type=int,
         default=400,
         help='Tile size for background sampler, 0 for no tile during testing. Default: 400')
+    parser.add_argument('--model_path', type=str, default=None, help='[Option] Model path. Usually, you do not need to specify it')
     parser.add_argument('--suffix', type=str, default=None, help='Suffix of the restored faces')
     parser.add_argument('--only_center_face', action='store_true', help='Only restore the center face')
     parser.add_argument('--aligned', action='store_true', help='Input are aligned faces')
@@ -74,10 +75,7 @@ def main():
     
     # use dni to control the denoise strength
     dni_weight = None
-    global model_path
     if args.model_name == 'realesr-general-x4v3' and args.denoise_strength != 1:
-        wdn_model_path = model_path.replace('realesr-general-x4v3', 'realesr-general-wdn-x4v3')
-        model_path = [model_path, wdn_model_path]
         dni_weight = [args.denoise_strength, 1 - args.denoise_strength]
 
     if args.bg_upsampler == 'realesrgan':
