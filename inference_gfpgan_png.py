@@ -23,10 +23,8 @@ def main():
         '-n',
         '--model_name',
         type=str,
-        default='RealESRGAN_x4plus',
-        help=('Model names: RealESRGAN_x4plus | RealESRNet_x4plus | RealESRGAN_x4plus_anime_6B | RealESRGAN_x2plus | '
-              'realesr-animevideov3 | realesr-general-x4v3 | realesr-general-wdn-x4v3'))
-              'realesr-animevideov3 | realesr-general-x4v3'))
+        default='realesr-general-x4v3',
+        help=('Model names: RealESRGAN_x4plus | RealESRNet_x4plus | RealESRGAN_x4plus_anime_6B | RealESRGAN_x2plus | realesr-animevideov3 | realesr-general-x4v3 | realesr-general-wdn-x4v3'))
     parser.add_argument('-o', '--output', type=str, default='results', help='Output folder. Default: results')
     parser.add_argument('--model_path', type=str, default=None, help='Model path')
     # we use version to select models, which is more user-friendly
