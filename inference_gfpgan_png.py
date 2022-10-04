@@ -19,7 +19,16 @@ def main():
         type=str,
         default='inputs/whole_imgs',
         help='Input image or folder. Default: inputs/whole_imgs')
+    parser.add_argument(
+        '-n',
+        '--model_name',
+        type=str,
+        default='RealESRGAN_x4plus',
+        help=('Model names: RealESRGAN_x4plus | RealESRNet_x4plus | RealESRGAN_x4plus_anime_6B | RealESRGAN_x2plus | '
+              'realesr-animevideov3 | realesr-general-x4v3 | realesr-general-wdn-x4v3'))
+              'realesr-animevideov3 | realesr-general-x4v3'))
     parser.add_argument('-o', '--output', type=str, default='results', help='Output folder. Default: results')
+    parser.add_argument('--model_path', type=str, default=None, help='Model path')
     # we use version to select models, which is more user-friendly
     parser.add_argument(
         '-v', '--version', type=str, default='1.3', help='GFPGAN model version. Option: 1 | 1.2 | 1.3. Default: 1.3')
@@ -64,6 +73,14 @@ def main():
     os.makedirs(args.output, exist_ok=True)
 
     # ------------------------ set up background upsampler ------------------------
+    
+    # use dni to control the denoise strength
+    dni_weight = None
+    if args.model_name == 'realesr-general-x4v3' and args.denoise_strength != 1:
+        wdn_model_path = model_path.replace('realesr-general-x4v3', 'realesr-general-wdn-x4v3')
+        model_path = [model_path, wdn_model_path]
+        dni_weight = [args.denoise_strength, 1 - args.denoise_strength]
+
     if args.bg_upsampler == 'realesrgan':
        if not torch.cuda.is_available():
            from realesrgan.archs.srvgg_arch import SRVGGNetCompact
@@ -72,6 +89,7 @@ def main():
            bg_upsampler = RealESRGANer(
                 scale=4,
                 model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-x4v3.pth',
+                dni_weight=dni_weight,
                 model=model,
                 tile=args.bg_tile,
                 tile_pad=10,
@@ -84,6 +102,7 @@ def main():
            bg_upsampler = RealESRGANer(
                 scale=4,
                 model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-x4v3.pth',
+                dni_weight=dni_weight,
                 model=model,
                 tile=args.bg_tile,
                 tile_pad=10,
