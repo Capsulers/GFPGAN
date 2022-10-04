@@ -26,7 +26,6 @@ def main():
         default='realesr-general-x4v3',
         help=('Model names: RealESRGAN_x4plus | RealESRNet_x4plus | RealESRGAN_x4plus_anime_6B | RealESRGAN_x2plus | realesr-animevideov3 | realesr-general-x4v3 | realesr-general-wdn-x4v3'))
     parser.add_argument('-o', '--output', type=str, default='results', help='Output folder. Default: results')
-    parser.add_argument('--model_path', type=str, default=None, help='Model path')
     # we use version to select models, which is more user-friendly
     parser.add_argument(
         '-v', '--version', type=str, default='1.3', help='GFPGAN model version. Option: 1 | 1.2 | 1.3. Default: 1.3')
@@ -47,7 +46,6 @@ def main():
         type=int,
         default=400,
         help='Tile size for background sampler, 0 for no tile during testing. Default: 400')
-    parser.add_argument('--model_path', type=str, default=None, help='[Option] Model path. Usually, you do not need to specify it')
     parser.add_argument('--suffix', type=str, default=None, help='Suffix of the restored faces')
     parser.add_argument('--only_center_face', action='store_true', help='Only restore the center face')
     parser.add_argument('--aligned', action='store_true', help='Input are aligned faces')
