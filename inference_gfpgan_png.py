@@ -38,7 +38,7 @@ def main():
         '-dn',
         '--denoise_strength',
         type=float,
-        default=0.5,
+        default=1,
         help=('Denoise strength. 0 for weak denoise (keep noise), 1 for strong denoise ability. '
               'Only used for the realesr-general-x4v3 model'))
     parser.add_argument(
