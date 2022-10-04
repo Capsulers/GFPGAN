@@ -74,6 +74,7 @@ def main():
     
     # use dni to control the denoise strength
     dni_weight = None
+    global model_path
     if args.model_name == 'realesr-general-x4v3' and args.denoise_strength != 1:
         wdn_model_path = model_path.replace('realesr-general-x4v3', 'realesr-general-wdn-x4v3')
         model_path = [model_path, wdn_model_path]
