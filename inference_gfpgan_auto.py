@@ -87,7 +87,7 @@ def main():
                 dni_weight=dni_weight,
                 model=model,
                 tile=args.bg_tile,
-                tile_pad=40,
+                tile_pad=10,
                 pre_pad=0,
                 half=False)  # need to set False in CPU mode
        else:
@@ -100,7 +100,7 @@ def main():
                 dni_weight=dni_weight,
                 model=model,
                 tile=args.bg_tile,
-                tile_pad=40,
+                tile_pad=10,
                 pre_pad=0,
                 half=True)
     else:
